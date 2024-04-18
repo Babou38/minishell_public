@@ -46,6 +46,16 @@ t_token **lexer(char *input)
                 tokens[j++] = create_token(TOKEN_PIPE, "|");
                 i++;
             }
+            else if (input[i] == '<' && input[i + 1] == '<')
+            {
+                tokens[j++] = create_token(TOKEN_INSERTION, "<<");
+                i = i + 2;
+            }
+            else if (input[i] == '>' && input[i + 1] == '>')
+            {
+                tokens[j++] = create_token(TOKEN_EXTRACTION, ">>");
+                i = i + 2;
+            }
             else if (input[i] == '<')
             {
                 tokens[j++] = create_token(TOKEN_REDIRECTION_IN, "<");
@@ -54,6 +64,17 @@ t_token **lexer(char *input)
             else if (input[i] == '>')
             {
                 tokens[j++] = create_token(TOKEN_REDIRECTION_OUT, ">");
+                i++;
+            }
+            
+            else if (input[i] == 40)
+            {
+                tokens[j++] = create_token(TOKEN_SINGLE_QUOTE, "\'");
+                i++;
+            }
+            else if (input[i] == 34)
+            {
+                tokens[j++] = create_token(TOKEN_DOUBLE_QUOTE, "\"");
                 i++;
             }
             else
@@ -82,23 +103,9 @@ void print_tokens(t_token **tokens)
 
     while (tokens[i])
     {
-        printf("Token %d:\n", i);
-        printf("Type: %d\n", tokens[i]->type);
-        printf("Value: %s\n\n", tokens[i]->value);
+        printf("Token %d: ", i);
+        printf("Type: %d ", tokens[i]->type);
+        printf("Value: %s\n", tokens[i]->value);
         i++;
     }
 }
-
-void free_tokens(t_token **tokens)
-{
-    int i = 0;
-
-    while (tokens[i])
-    {
-        free(tokens[i]->value);
-        free(tokens[i]);
-        i++;
-    }
-    free(tokens);
-}
-

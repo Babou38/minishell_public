@@ -6,7 +6,7 @@
 /*   By: bchapuis <bchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:44:54 by bchapuis          #+#    #+#             */
-/*   Updated: 2024/04/18 14:02:52 by bchapuis         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:28:23 by bchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ typedef enum e_tokentype
     TOKEN_PIPE,
     TOKEN_REDIRECTION_IN,
     TOKEN_REDIRECTION_OUT,
+    TOKEN_INSERTION,
+    TOKEN_EXTRACTION,
+    TOKEN_SINGLE_QUOTE,
+    TOKEN_DOUBLE_QUOTE,
     TOKEN_END
 }               t_tokentype;
 
