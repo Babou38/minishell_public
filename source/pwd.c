@@ -16,17 +16,11 @@ void ft_pwd(t_shell *shell)
 {
     char *pwd;
     
-    if (shell->cmd[0] != NULL && ft_strncmp(shell->cmd[0], "pwd", 3) == 0)
-    {
-        pwd = getcwd(NULL, 0);
-        if (pwd != NULL)
-        {
-            printf("%s\n", pwd);
-            free(pwd);
-        }
-        else
-            perror("pwd failed");
-        free(pwd);
-    }
-    
+    pwd = getcwd(NULL, 0);
+    if (pwd != NULL)
+        printf("%s\n", pwd);
+    else
+        perror("pwd failed");
+    free(pwd);
+    shell->exitcode = 0;
 }

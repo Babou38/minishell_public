@@ -18,29 +18,26 @@ void ft_echo(t_shell *shell)
     int newline = 1;
     char *env_value;
 
-    if (shell->cmd[0] != NULL && ft_strncmp(shell->cmd[0], "echo", 4) == 0)
+    if (shell->cmd[i] != NULL && ft_strncmp(shell->cmd[i], "-n", 2) == 0)
     {
-        if (shell->cmd[i] != NULL && ft_strncmp(shell->cmd[i], "-n", 2) == 0)
-        {
-            newline = 0;
-            i++;
-        }
-        while (shell->cmd[i] != NULL)
-        {
-            if (ft_strncmp(shell->cmd[i], "$?", 2) == 0)
-                printf("%d ", shell->exitcode);
-            else if (shell->cmd[i][0] == '$')
-            {
-                env_value = getenv(shell->cmd[i] + 1);
-                if (env_value != NULL)
-                    printf("%s ", env_value);
-            }
-            else
-                printf("%s ", shell->cmd[i]);
-            i++;
-        }
-        shell->exitcode = 0;
-        if (newline)
-            printf("\n");
+        newline = 0;
+        i++;
     }
+    while (shell->cmd[i] != NULL)
+    {
+        if (ft_strncmp(shell->cmd[i], "$?", 2) == 0)
+            printf("%d ", shell->exitcode);
+        else if (shell->cmd[i][0] == '$')
+        {
+           env_value = getenv(shell->cmd[i] + 1);
+            if (env_value != NULL)
+                printf("%s ", env_value);
+        }
+        else
+            printf("%s ", shell->cmd[i]);
+        i++;
+    }
+    if (newline)
+        printf("\n");
+    shell->exitcode = 0;
 }

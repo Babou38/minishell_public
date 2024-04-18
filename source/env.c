@@ -14,14 +14,13 @@
 
 void ft_env(t_shell *shell)
 {
-    int i = 0;
-    if (shell->cmd[0] != NULL && ft_strncmp(shell->cmd[0], "env", 3) == 0)
+    int i;
+
+    i = 0;
+    while (shell->env[i] != NULL)
     {
-        while (shell->env[i] != NULL)
-        {
-            printf("%s\n", shell->env[i]);
-            i++;
-        }
-        shell->exitcode = 0;
+        printf("%s\n", shell->env[i]);
+        i++;
     }
+    shell->exitcode = 0;
 }

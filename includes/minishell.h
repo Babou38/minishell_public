@@ -6,7 +6,7 @@
 /*   By: bchapuis <bchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:44:54 by bchapuis          #+#    #+#             */
-/*   Updated: 2024/04/18 13:24:02 by bchapuis         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:02:52 by bchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char    *join_path_cmd(char *path, char *cmd);
 
 //error
 void    ft_no_path(void);
-void    error(char **memory_to_free);
+void    error(char **memory_to_free, int exit_code);
 
 //lexer
 t_token *create_token(t_tokentype type, char *value);

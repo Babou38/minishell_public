@@ -30,4 +30,5 @@ void ft_unset(t_shell *shell)
             next_env_ptr++;
         }
     }
+    shell->exitcode = 0;
 }

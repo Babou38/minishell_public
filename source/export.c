@@ -55,5 +55,6 @@ void ft_export(t_shell *shell)
             free(shell->env);
             shell->env = new_env;
         }
+        shell->exitcode = 0;
     }
 }

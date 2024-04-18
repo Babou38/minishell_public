@@ -48,14 +48,14 @@ char    *join_path_cmd(char *path, char *cmd)
         if (tmp == NULL)
         {
                 free(path);
-                error(NULL);
+                error(NULL, 1);
         }
         full_path = ft_strjoin(tmp, cmd);
         if (full_path == NULL)
         {
                 free(tmp);
                 free(path);
-                error(NULL);
+                error(NULL, 1);
         }
         free(tmp);
         return (full_path);
@@ -93,7 +93,7 @@ char    *get_cmd_path(char *cmd, char **env)
                 if (access(cmd, X_OK) == 0)
                         return (cmd);
                 else
-                        error(NULL);
+                        error(NULL, 126);
         }
         while (env[++i])
                 if (!ft_strncmp(env[i], "PATH=", 5))
@@ -102,6 +102,6 @@ char    *get_cmd_path(char *cmd, char **env)
                 ft_no_path();
         path = ft_split(env[i] + 5, ':');
         if (path == NULL)
-                error(NULL);
+                error(NULL, 1);
         return (check_path(path, cmd));
 }

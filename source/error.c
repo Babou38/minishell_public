@@ -12,17 +12,17 @@
 
 #include "minishell.h"
 
-void    error(char **memory_to_free)
+void    error(char **memory_to_free, int exit_code)
 {
         if (memory_to_free != NULL)
                 ft_free_split(memory_to_free);
         perror("Error");
-        exit(EXIT_FAILURE);
+        exit(exit_code);
 }
 
 void    ft_no_path(void)
 {
         write(2, "PATH not found\n", 15);
-        exit(EXIT_FAILURE);
+        exit(127);
 }
 

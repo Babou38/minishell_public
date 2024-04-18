@@ -43,25 +43,22 @@ void ft_cd(t_shell *shell)
     char *oldpwd;
     char *newpwd;
 
-    if (shell->cmd[0] != NULL && ft_strncmp(shell->cmd[0], "cd", 2) == 0)
+    oldpwd = getcwd(NULL, 0);
+    if (shell->cmd[1] == NULL)
     {
-        oldpwd = getcwd(NULL, 0);
-        if (shell->cmd[1] == NULL)
-        {
-            path = getenv("HOME");
-            if (chdir(path) != 0)
-                perror("cd failed");
-        }
-        else
-        {
-            if (chdir(shell->cmd[1]) != 0)
-                perror("cd failed");
-        }
-        newpwd = getcwd(NULL, 0);
-        update_env_var(shell->env, "OLDPWD=", oldpwd);
-        update_env_var(shell->env, "PWD=", newpwd);
-        free(oldpwd);
-        free(newpwd);
-        shell->exitcode = 0;
+        path = getenv("HOME");
+        if (chdir(path) != 0)
+            perror("cd failed");
     }
+    else
+    {
+        if (chdir(shell->cmd[1]) != 0)
+               perror("cd failed");
+    }
+    newpwd = getcwd(NULL, 0);
+    update_env_var(shell->env, "OLDPWD=", oldpwd);
+    update_env_var(shell->env, "PWD=", newpwd);
+    free(oldpwd);
+    free(newpwd);
+    shell->exitcode = 0;
 }
