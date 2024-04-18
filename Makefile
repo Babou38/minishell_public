@@ -28,7 +28,8 @@ SRC_NAME =	main.c\
 			error.c\
 			unset.c\
 			export.c\
-			lexer.c
+			lexer.c\
+			util.c
 
 			
 

@@ -26,15 +26,3 @@ void    ft_no_path(void)
         exit(EXIT_FAILURE);
 }
 
-void    ft_free_split(char **tab)
-{
-        int     i;
-
-        i = 0;
-        while (tab[i])
-        {
-                free(tab[i]);
-                i++;
-        }
-        free(tab);
-}
