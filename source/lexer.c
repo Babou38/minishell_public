@@ -67,7 +67,7 @@ t_token **lexer(char *input)
                 i++;
             }
             
-            else if (input[i] == 40)
+            else if (input[i] == 39)
             {
                 tokens[j++] = create_token(TOKEN_SINGLE_QUOTE, "\'");
                 i++;
