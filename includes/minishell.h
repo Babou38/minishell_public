@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bchapuis <bchapuis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:44:54 by bchapuis          #+#    #+#             */
-/*   Updated: 2024/04/18 10:41:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/18 13:24:02 by bchapuis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef enum e_tokentype
 {
     TOKEN_WORD,
     TOKEN_PIPE,
+    TOKEN_REDIRECTION_IN,
+    TOKEN_REDIRECTION_OUT,
     TOKEN_END
 }               t_tokentype;
 
@@ -74,5 +76,5 @@ t_token *create_token(t_tokentype type, char *value);
 t_token **lexer(char *input);
 void print_tokens(t_token **tokens);
 void free_tokens(t_token **tokens);
-
+char	*ft_strndup(const char *s, int n);
 #endif

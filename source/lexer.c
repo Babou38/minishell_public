@@ -26,6 +26,26 @@ t_token *create_token(t_tokentype type, char *value)
     return (token);
 }
 
+char	*ft_strndup(const char *s, int n)
+{
+	int j;
+	char	*str;
+	int		i;
+
+    j = 0;
+	str = malloc(sizeof(char) * n + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[i] && i < n)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
 t_token **lexer(char *input)
 {
     t_token **tokens;
@@ -46,10 +66,20 @@ t_token **lexer(char *input)
                 tokens[j++] = create_token(TOKEN_PIPE, "|");
                 i++;
             }
+            else if (input[i] == '<')
+            {
+                tokens[j++] = create_token(TOKEN_REDIRECTION_IN, "<");
+                i++;
+            }
+            else if (input[i] == '>')
+            {
+                tokens[j++] = create_token(TOKEN_REDIRECTION_OUT, ">");
+                i++;
+            }
             else
             {
                 k = i;
-                while (input[k] && input[k] != ' ' && input[k] != '|')
+                while (input[k] && input[k] != ' ' && input[k] != '|' && input[k] != '<' && input[k] != '>')
                     k++;
                 word = strndup(input + i, k - i);
                 if (!word)
