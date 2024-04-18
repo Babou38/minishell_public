@@ -12,11 +12,40 @@
 
 #include "minishell.h"
 
+void update_env_var(char **env, char *var, char *new_value)
+{
+        int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    char *ptr = ft_strchr(var, '=');
+    if (ptr != NULL)
+    {
+        while (var[j] != *ptr)
+            j++;
+        j++;
+        while (env[++i])
+        {
+            if (ft_strncmp(env[i], var, j) == 0)
+            {
+                free(env[i]);
+                env[i] = ft_strjoin(var, new_value);
+                break ;
+            }
+        }
+    }
+}
+
 void ft_cd(t_shell *shell)
 {
     char *path;
+    char *oldpwd;
+    char *newpwd;
+
     if (shell->cmd[0] != NULL && ft_strncmp(shell->cmd[0], "cd", 2) == 0)
     {
+        oldpwd = getcwd(NULL, 0);
         if (shell->cmd[1] == NULL)
         {
             path = getenv("HOME");
@@ -28,6 +57,11 @@ void ft_cd(t_shell *shell)
             if (chdir(shell->cmd[1]) != 0)
                 perror("cd failed");
         }
+        newpwd = getcwd(NULL, 0);
+        update_env_var(shell->env, "OLDPWD=", oldpwd);
+        update_env_var(shell->env, "PWD=", newpwd);
+        free(oldpwd);
+        free(newpwd);
+        shell->exitcode = 0;
     }
-    
 }

@@ -16,6 +16,7 @@ void ft_echo(t_shell *shell)
 {
     int i = 1;
     int newline = 1;
+    char *env_value;
 
     if (shell->cmd[0] != NULL && ft_strncmp(shell->cmd[0], "echo", 4) == 0)
     {
@@ -26,9 +27,19 @@ void ft_echo(t_shell *shell)
         }
         while (shell->cmd[i] != NULL)
         {
-            printf("%s ", shell->cmd[i]);
+            if (ft_strncmp(shell->cmd[i], "$?", 2) == 0)
+                printf("%d ", shell->exitcode);
+            else if (shell->cmd[i][0] == '$')
+            {
+                env_value = getenv(shell->cmd[i] + 1);
+                if (env_value != NULL)
+                    printf("%s ", env_value);
+            }
+            else
+                printf("%s ", shell->cmd[i]);
             i++;
         }
+        shell->exitcode = 0;
         if (newline)
             printf("\n");
     }

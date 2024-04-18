@@ -12,10 +12,11 @@
 
 #include "minishell.h"
 
-void ft_execute(char **cmd, char **envp)
+void ft_execute(char **cmd, char **envp, t_shell *shell)
 {
     pid_t   pid;
     char *path;
+    int     status;
 
     if (cmd[0] == NULL)
         return;
@@ -29,11 +30,13 @@ void ft_execute(char **cmd, char **envp)
         {
             printf("%s: command not found\n", cmd[0]);
             free(path);
-            exit(1);
+            exit(127);
         }
         free(path);
+        exit(0);
     }
-    waitpid(pid, NULL, 0);
+    waitpid(pid, &status, 0);
+    shell->exitcode = status >> 8;
 }
 
 char    *join_path_cmd(char *path, char *cmd)

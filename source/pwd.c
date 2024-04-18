@@ -21,12 +21,12 @@ void ft_pwd(t_shell *shell)
         pwd = getcwd(NULL, 0);
         if (pwd != NULL)
         {
-            
             printf("%s\n", pwd);
             free(pwd);
         }
         else
             perror("pwd failed");
+        free(pwd);
     }
     
 }

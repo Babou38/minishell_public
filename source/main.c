@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchapuis <bchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:44:49 by bchapuis          #+#    #+#             */
-/*   Updated: 2024/04/15 13:58:38 by bchapuis         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:41:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,18 @@ int main (int argc, char **argv, char **envp)
     (void)argc;
     (void)argv;
     shell.exit = 0;
+    shell.exitcode = 0;
     init_envp(&shell, envp);
     while(shell.exit == 0)
     {
         shell.str = ft_read_input();
         if (shell.str != NULL)
         {
+            
             shell.cmd = ft_parsing(&shell);
+            shell.commande = lexer(shell.str);
+            print_tokens(shell.commande);
+            free_tokens(shell.commande);
             if (shell.cmd[0] != NULL && ft_strncmp(shell.cmd[0], "exit", 4) == 0)
                 shell.exit = ft_is_exit(&shell);
             else if (shell.cmd[0] != NULL && ft_strncmp(shell.cmd[0], "cd", 2) == 0)
@@ -74,10 +79,10 @@ int main (int argc, char **argv, char **envp)
                 ft_env(&shell);
             else if (shell.cmd[0] != NULL && ft_strncmp(shell.cmd[0], "unset", 5) == 0)
                 ft_unset(&shell);
-            // else if (shell.cmd[0] != NULL && ft_strncmp(shell.cmd[0], "export", 6) == 0)
-            //     ft_export(&shell);
+            else if (shell.cmd[0] != NULL && ft_strncmp(shell.cmd[0], "export", 6) == 0)
+                ft_export(&shell);
             else
-                ft_execute(shell.cmd, shell.env);
+                ft_execute(shell.cmd, shell.env, &shell);
             ft_free_split(shell.cmd);
             free(shell.str);
         }

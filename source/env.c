@@ -22,5 +22,6 @@ void ft_env(t_shell *shell)
             printf("%s\n", shell->env[i]);
             i++;
         }
+        shell->exitcode = 0;
     }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bchapuis <bchapuis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:44:54 by bchapuis          #+#    #+#             */
-/*   Updated: 2024/04/15 13:21:45 by bchapuis         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:41:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,27 @@
 #include <sys/wait.h>
 #include "libft.h"
 
+typedef enum e_tokentype
+{
+    TOKEN_WORD,
+    TOKEN_PIPE,
+    TOKEN_END
+}               t_tokentype;
+
+typedef struct  s_token
+{
+    t_tokentype type;
+    char        *value;
+}               t_token;
+
 typedef struct s_shell
 {
     char    **env;
     char    **cmd;
+    t_token **commande;
     char    *str;
     int     exit;
+    int     exitcode;
 }   t_shell;
 
 //main
@@ -45,7 +60,7 @@ int     ft_is_exit(t_shell *shell);
 void    ft_export(t_shell *shell);
 
 //builtouts
-void    ft_execute(char **cmd, char **envp);
+void    ft_execute(char **cmd, char **envp, t_shell *shell);
 char    *get_cmd_path(char *cmd, char **env);
 char    *check_path(char **path, char *cmd);
 char    *join_path_cmd(char *path, char *cmd);
@@ -53,5 +68,11 @@ char    *join_path_cmd(char *path, char *cmd);
 //error
 void    ft_no_path(void);
 void    error(char **memory_to_free);
+
+//lexer
+t_token *create_token(t_tokentype type, char *value);
+t_token **lexer(char *input);
+void print_tokens(t_token **tokens);
+void free_tokens(t_token **tokens);
 
 #endif

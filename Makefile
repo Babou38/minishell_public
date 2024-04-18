@@ -27,6 +27,8 @@ SRC_NAME =	main.c\
 			find_exec.c\
 			error.c\
 			unset.c\
+			export.c\
+			lexer.c
 
 			
 

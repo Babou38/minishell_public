@@ -14,13 +14,46 @@
 
 void ft_export(t_shell *shell)
 {
-    if (shell.cmd[0] != NULL && ft_strncmp(shell.cmd[0], "export", 6) == 0)
+    int i;
+    int j;
+    int k;
+    int exist;
+    char **new_env;
+
+    i = 0;
+    j = 0;
+    k = 0;
+    exist = 0;
+    char *ptr = ft_strchr(shell->cmd[1], '=');
+    if (ptr != NULL)
     {
-        char *ptr = ft_strchr(shellshell.cmd[1])
-        if (ptr != NULL)
+        while (shell->cmd[1][j] != *ptr)
+            j++;
+        j++;
+        while (shell->env[++i])
         {
-            free(ptr);
-            printf("yes");
+            if (ft_strncmp(shell->env[i], shell->cmd[1], j) == 0)
+            {
+                exist = 1;
+                free(shell->env[i]);
+                shell->env[i] = ft_strdup(shell->cmd[1]);
+                break ;
+            }
+            else
+                exist = 0;
+        }
+         if (exist == 0)
+        {
+            new_env = malloc(sizeof(char *) * (i + 2));
+            while (k < i)
+            {
+                new_env[k] = shell->env[k];
+                k++;
+            }
+            new_env[i] = ft_strdup(shell->cmd[1]);
+            new_env[i + 1] = NULL;
+            free(shell->env);
+            shell->env = new_env;
         }
     }
 }
