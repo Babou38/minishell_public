@@ -1,0 +1,93 @@
+(//N POUR VOIR QUOI ADD)
+
+----> probleme d'arbre : si "   <<  delimiter " on obient : 
+						<<
+					   /  \
+					  |    |
+					<<     delimiter
+
+--> dedoublement du premier param en tant qu'argument, car on stocke
+la commande entiere dams node->args, et args[0] est toujours la commande, les arguments commencent
+a args[1]
+--> ne pas considerer les << comme cmd ?
+
+. Dans build_ast, pourquoi node = create_ast_node(tokens[0], debug); au tout depart ? 
+
+<< delim1 | << delim2  : 
+						<<
+					   /  \
+					  |    |
+					"|"   delim2
+					 /\		
+				  <<    <<
+				  /\
+				<<   delim1
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+cat << 34 >makefile | cat << "13 << 123 << 141414"
+
+cat : STR
+<< : REDIR DOC
+34 : STR
+> : REDIr 
+MAKEFILE : STR
+| : PIPE
+cat : STR
+<< : REDIR
+"34 << 123 << 141414" : STR
+
+
+
+EXPANDING
+Separe tout ca en string pour donner au lexer;
+j'attribue a mes strings un TOKEN avec le lexer
+DO HEREDOC
+REMOVE QUOTE
+DO command
+RESET
+----------------------------------------------------------------------------------------------------------------------------------
+
+cat Makefile | wc -l > supppp.txt
+Token 0: Type: 0 Value: cat
+Token 1: Type: 1 Value: Makefile
+Token 2: Type: 2 Value: |
+Token 3: Type: 0 Value: wc
+Token 4: Type: 1 Value: -l
+Token 5: Type: 4 Value: >
+Token 6: Type: 0 Value: supppp.txt
+
+res : 
+						>
+					   /  \
+					  |    |
+					"|"   supppp.txt
+					 /\		
+				  cat    wc
+
+--------------------------------
+cmd : 
+make && clear && valgrind --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.supp -s ./minishell
+advanced : 
+valgrind --trace-children=yes --track-fds=all ./minishell
+--------------------------------
+
+to fix :  
+-> regarder quelles fonctions utilisent malloc et chasser les valeurs de retour (strdup et join)
+-> convert_code dans exit.c
+-> cherche 'to check'
+-> execute pipe -> fermer les pipes en cas de fail fork
+-> ne pas leave si redirection fausse (error())
+-> ajouter errno ? 
+
+fixed : 
+-> $PWD
+-> pwd doit TOUJOURS donner le VRAI pwd, la var $PWD change uniquement le prompt 
+-> unset PWD puis export PWD = crash
+-> pas de exit si open pas reussi
+-> handle isspace
+-> multi unset
+-> echo -nnnnnnnn
+-> $?
+-> TODO export arg  -> ne marche pas si pipe ? -> en fait c'est normal ? -> ??????????????????????
+-> idem unset
